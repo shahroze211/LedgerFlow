@@ -1,0 +1,15 @@
+INVOICE
+
+Vendor: Soylent Foods Ltd
+Invoice Number: INV-1026
+Invoice Date: 2025-03-27
+Currency: EUR
+
+Description                 Qty    Unit Price      Amount
+Hardware unit                 2        240.00      480.00
+Catering package              1        480.00      480.00
+
+Subtotal: 960.00
+Tax: 96.00
+Total: 1096.00
+

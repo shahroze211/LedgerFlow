@@ -1,0 +1,15 @@
+INVOICE
+
+Vendor: Umbrella Industries
+Invoice Number: INV-1013
+Invoice Date: 2025-02-14
+Currency: EUR
+
+Description                 Qty    Unit Price      Amount
+Catering package              1        480.00      480.00
+Professional services         1       1200.00     1200.00
+
+Subtotal: 1680.00
+Tax: 168.00
+Total: 1848.00
+

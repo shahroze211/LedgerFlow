@@ -1,0 +1,68 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint-test-eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r backend/requirements.txt
+
+      - name: Lint (ruff)
+        run: ruff check backend
+
+      - name: Unit + integration tests
+        working-directory: backend
+        run: pytest -q
+
+      - name: Regenerate fixtures (determinism check)
+        run: python eval/generate_fixtures.py
+
+      - name: Eval gate (fails build if accuracy < floor)  # P6
+        run: python eval/run_eval.py --floor 0.90
+
+      - name: Upload eval report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-report
+          path: eval/last_report.json
+
+  eval-regression-guard:
+    # Proves the gate actually bites: a simulated regression MUST turn the gate red.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r backend/requirements.txt
+      - name: Assert simulated regression fails the eval gate
+        run: |
+          if python eval/run_eval.py --simulate-regression --floor 0.90; then
+            echo "::error::eval gate did NOT fail on a simulated regression"
+            exit 1
+          else
+            echo "eval gate correctly failed on the simulated regression"
+          fi
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build API image
+        run: docker build -t ledgerflow-api ./backend
+      - name: Build compose stack (config only)
+        run: docker compose config

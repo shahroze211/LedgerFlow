@@ -1,0 +1,15 @@
+INVOICE
+
+Vendor: Initech LLC
+Invoice Number: INV-1002
+Invoice Date: 2025-03-03
+Currency: USD
+
+Description                 Qty    Unit Price      Amount
+Hardware unit                 2        240.00      480.00
+Catering package              1        480.00      480.00
+
+Subtotal: 960.00
+Tax: 96.00
+Total: 1056.00
+

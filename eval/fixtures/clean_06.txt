@@ -1,0 +1,15 @@
+INVOICE
+
+Vendor: Soylent Foods Ltd
+Invoice Number: INV-1006
+Invoice Date: 2025-07-07
+Currency: EUR
+
+Description                 Qty    Unit Price      Amount
+Logistics fee                 4         65.00      260.00
+Cloud subscription            3         90.00      270.00
+
+Subtotal: 530.00
+Tax: 53.00
+Total: 583.00
+

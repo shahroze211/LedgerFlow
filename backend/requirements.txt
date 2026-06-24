@@ -1,0 +1,27 @@
+# --- core runtime ---
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.4
+pydantic-settings==2.7.1
+sqlalchemy==2.0.36
+python-multipart==0.0.20
+python-dateutil==2.9.0.post0
+rapidfuzz==3.11.0
+httpx==0.28.1
+prometheus-client==0.21.1
+watchdog==6.0.0
+
+# --- queue (used when LEDGERFLOW_QUEUE_BACKEND=redis) ---
+rq==2.0.0
+redis==5.2.1
+
+# --- postgres driver (used when DATABASE_URL points at postgres) ---
+psycopg2-binary==2.9.10
+
+# --- LLM providers (optional; imported lazily, only when selected) ---
+openai==1.59.6
+google-generativeai==0.8.3
+
+# --- dev / CI ---
+pytest==8.3.4
+ruff==0.8.6

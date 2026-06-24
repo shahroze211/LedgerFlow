@@ -1,0 +1,15 @@
+INVOICE
+
+Vendor: Zzyzx Trading Co
+Invoice Number: INV-1028
+Invoice Date: 2025-05-02
+Currency: USD
+
+Description                 Qty    Unit Price      Amount
+Consulting hours              8        150.00     1200.00
+Office supplies              10         12.50      125.00
+
+Subtotal: 1325.00
+Tax: 132.50
+Total: 1457.50
+

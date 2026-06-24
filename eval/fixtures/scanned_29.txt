@@ -1,0 +1,15 @@
+INVOICE
+
+Vendor: Cyberdyne Systems
+lnv01ce Number: INV-1029
+Invoice Date: 2025-06-03
+Currency: JPY
+
+Description                 Qty    Unit Price      Amount
+Catering package              1        480.00      480.00
+Professional services         1       1200.00     1200.00
+
+Subtotal: 1680.00
+Tax: 168.00
+Total: 1848.00
+

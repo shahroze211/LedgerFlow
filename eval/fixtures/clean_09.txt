@@ -1,0 +1,15 @@
+INVOICE
+
+Vendor: Cyberdyne Systems
+Invoice Number: INV-1009
+Invoice Date: 2025-10-10
+Currency: JPY
+
+Description                 Qty    Unit Price      Amount
+Cloud subscription            3         90.00      270.00
+Consulting hours              8        150.00     1200.00
+
+Subtotal: 1470.00
+Tax: 147.00
+Total: 1617.00
+

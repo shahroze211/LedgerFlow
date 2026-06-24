@@ -1,0 +1,15 @@
+INVOICE
+
+Vendor: Globex Corporation
+Invoice Number: INV-1021
+Invoice Date: 2025-10-22
+Currency: USD
+
+Description                 Qty    Unit Price      Amount
+Catering package              1        480.00      480.00
+Professional services         1       1200.00     1200.00
+
+Subtotal: 1680.00
+Tax: 168.00
+Total: 1848.00
+

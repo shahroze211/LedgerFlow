@@ -1,0 +1,15 @@
+INVOICE
+
+Vendor: Hooli Inc
+Invoice Number: INV-1007
+Invoice Date: 2025-08-08
+Currency: USD
+
+Description                 Qty    Unit Price      Amount
+Office supplies              10         12.50      125.00
+Hardware unit                 2        240.00      480.00
+
+Subtotal: 605.00
+Tax: 60.50
+Total: 665.50
+

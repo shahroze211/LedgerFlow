@@ -1,0 +1,15 @@
+INVOICE
+
+Vendor: Vandelay Imports
+Invoice Number: INV-1018
+Invoice Date: 2025-07-19
+Currency: USD
+
+Description                 Qty    Unit Price      Amount
+Hardware unit                 2        240.00      480.00
+Catering package              1        480.00      480.00
+
+Subtotal: 960.00
+Tax: 96.00
+Total: 1056.00
+

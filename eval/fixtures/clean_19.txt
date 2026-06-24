@@ -1,0 +1,15 @@
+INVOICE
+
+Vendor: Cyberdyne Systems
+Invoice Number: INV-1019
+Invoice Date: 2025-08-20
+Currency: JPY
+
+Description                 Qty    Unit Price      Amount
+Lab consumables               5         35.00      175.00
+Logistics fee                 4         65.00      260.00
+
+Subtotal: 435.00
+Tax: 43.50
+Total: 478.50
+

@@ -1,0 +1,106 @@
+# LedgerFlow — full "production-shaped" stack.
+# Local dev needs none of this (SQLite + in-process queue + stub provider);
+# this brings up the postgres / redis / prometheus / grafana story for the demo.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ledger
+      POSTGRES_PASSWORD: ledger
+      POSTGRES_DB: ledgerflow
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ledger -d ledgerflow"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: ./backend
+    environment:
+      LEDGERFLOW_DATABASE_URL: postgresql+psycopg2://ledger:ledger@postgres:5432/ledgerflow
+      LEDGERFLOW_QUEUE_BACKEND: redis
+      LEDGERFLOW_REDIS_URL: redis://redis:6379/0
+      LEDGERFLOW_LLM_PROVIDER: ${LEDGERFLOW_LLM_PROVIDER:-stub}
+      LEDGERFLOW_OPENAI_API_KEY: ${LEDGERFLOW_OPENAI_API_KEY:-}
+      LEDGERFLOW_GEMINI_API_KEY: ${LEDGERFLOW_GEMINI_API_KEY:-}
+      LEDGERFLOW_WATCH_DIR: /data/invoices
+      LEDGERFLOW_STORAGE_DIR: /data/uploads
+    volumes:
+      - ./invoices:/data/invoices
+      - uploads:/data/uploads
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    build: ./backend
+    command: python run_worker.py
+    environment:
+      LEDGERFLOW_DATABASE_URL: postgresql+psycopg2://ledger:ledger@postgres:5432/ledgerflow
+      LEDGERFLOW_QUEUE_BACKEND: redis
+      LEDGERFLOW_REDIS_URL: redis://redis:6379/0
+      LEDGERFLOW_LLM_PROVIDER: ${LEDGERFLOW_LLM_PROVIDER:-stub}
+      LEDGERFLOW_OPENAI_API_KEY: ${LEDGERFLOW_OPENAI_API_KEY:-}
+      LEDGERFLOW_GEMINI_API_KEY: ${LEDGERFLOW_GEMINI_API_KEY:-}
+      LEDGERFLOW_WATCH_DIR: /data/invoices
+      LEDGERFLOW_STORAGE_DIR: /data/uploads
+    volumes:
+      - ./invoices:/data/invoices
+      - uploads:/data/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    environment:
+      # the browser talks to the API on the host, so use localhost
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    depends_on:
+      - api
+
+  grafana:
+    image: grafana/grafana:latest
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+    volumes:
+      - ./infra/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./infra/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports:
+      - "3001:3000"
+    depends_on:
+      - prometheus
+
+volumes:
+  pgdata:
+  uploads:

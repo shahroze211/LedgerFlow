@@ -1,0 +1,15 @@
+INVOICE
+
+Vendor: Stark Industries
+Invoice Number: INV-1014
+Invoice Date: 2025-03-15
+Currency: USD
+
+Description                 Qty    Unit Price      Amount
+Logistics fee                 4         65.00      260.00
+Cloud subscription            3         90.00      270.00
+
+Subtotal: 530.00
+Tax: 53.00
+Total: 583.00
+
